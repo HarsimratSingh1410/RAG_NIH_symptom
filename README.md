@@ -206,19 +206,6 @@ These values are in `app/api/chat/route.ts`:
 
 While the app runs, the terminal prints lines starting with `[rag]` (the embedding model, the search and its scores) and `[chat]` (the model result). These are the fastest way to see what is happening.
 
-## Deployment
-
-This version is meant to run on a normal computer or server where Node.js runs continuously, such as your own machine, a virtual machine or a container.
-
-It is not suitable for Vercel's serverless functions in its current form. The local embedding model depends on the native `onnxruntime-node` library. On Vercel that library is not packaged with the function, the bundle can exceed the 250 MB function size limit, and the 110 MB model would have to be downloaded again on every cold start. Deploying it there fails with an error such as "Cannot find module 'onnxruntime-node'".
-
-To host it on serverless platforms, the embedding step would need to move to a hosted service, for example an Upstash Vector index created with a built-in embedding model. That requires a new index and reloading the data.
-
-## Free-tier limits
-
-- Groq: the free plan has per-model limits on requests per minute and per day. Check your Groq console for the exact numbers. Groq also retires models over time (for example `llama-3.1-8b-instant` was shut down on the free plan in August 2026), so if the model stops working, check https://console.groq.com/docs/deprecations for the recommended replacement and change the model name in `route.ts`.
-- Upstash Vector: the free plan allows 10,000 queries or updates per day and 1 GB of data.
-
 ## Troubleshooting
 
 | Problem | What to check |
